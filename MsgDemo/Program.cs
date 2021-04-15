@@ -8,25 +8,20 @@ namespace MsgDemo
     {
         static async Task Main(string[] args)
         {
-            while (true)
+            try
             {
-                try
-                {
-                    var weather = @"http://api.k780.com/?app=weather.today&cityNm=苏州&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
-                    var wEntity = await weather.GetAsync().ReceiveJson<Rootobject>();
+                var weather = @"http://api.k780.com/?app=weather.today&cityNm=苏州&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
+                var wEntity = await weather.GetAsync().ReceiveJson<Rootobject>();
 
-                    var url = $@"http://push.ijingniu.cn/send?key=da19e954e7c54383aedb13d44f09e311&head=Hello&body={wEntity?.result?.citynm}+{wEntity?.result?.weather}+{wEntity?.result?.temperature}";
+                var url = $@"http://push.ijingniu.cn/send?key=da19e954e7c54383aedb13d44f09e311&head=Hello&body={wEntity?.result?.citynm}+{wEntity?.result?.weather}+{wEntity?.result?.temperature}";
 
-                    var xx = await url.GetAsync();
-                    Console.WriteLine("发送完成");
-                    Console.WriteLine("Hello World!");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                await Task.Delay(1000 * 60 * 5);
+                var xx = await url.GetAsync();
+                Console.WriteLine("发送完成");
+                Console.WriteLine("Hello World!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
